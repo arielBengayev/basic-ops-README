@@ -1,3 +1,13 @@
+# WSL(linux)
+check if ubuntu installed, if not
+
+open cmd and run
+```
+wsl --install
+```
+
+---
+
 # fork team project
 1. go to -> https://github.com/arielBengayev/ops-basic
 2. press on fork
@@ -54,3 +64,43 @@ press on sql
 SELECT 'ariel', 1 from dual
 ```
 press on run current
+
+---
+
+# SSH key setup
+1. run in terminal and press enter for all
+```
+ssh-keygen
+```
+```
+ls -la ~/.ssh
+```
+```
+cat ~/.ssh/yourId.pub
+```
+2. copy your key and save
+3. go to -> https://github.com/settings/keys
+4. press on new SSH key
+5. past your key and press add SSH key
+
+---
+
+# connect project to db
+change src/main/resources/application.properties to
+```
+spring.datasource.url=jdbc:mysql://mysql:3306/students
+spring.datasource.username=students
+spring.datasource.password=Unix11
+```
+
+---
+
+# clone the project to ubuntu
+1. go to main repo page
+2. press on code
+3. copy the SSH
+4. run in terminal
+```
+git clone your SSH url
+```
+5. choose yes
