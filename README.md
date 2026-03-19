@@ -61,7 +61,7 @@ sudo docker ps
 # test
 press on sql 
 ```
-SELECT 'ariel', 1 from dual
+SELECT 'your name', 1 from dual
 ```
 press on run current
 
