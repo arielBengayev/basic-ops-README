@@ -135,6 +135,10 @@ cd target
 ```
 ll
 ```
+go back to main folder
+```
+cd ..
+```
 
 ---
 
