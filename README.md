@@ -167,14 +167,15 @@ sudo docker run -d \
     -v mysql-data:/var/lib/mysql \
     mysql:8.0
 ```
+docker build
+```
+sudo docker build . -t backend
+```
 login to docker
 ```
 sudo docker login
 ```
 enter your username and password or past your dockerhub token
-```
-sudo docker build . -t backend
-```
 ```
 sudo docker tag backend <dockerhub username>/backend
 ```
