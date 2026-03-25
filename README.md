@@ -147,3 +147,33 @@ ll
 
 ---
 
+# dockerrize the project
+make sure the container is up
+```
+docker ps
+```
+if not run
+```
+sudo docker run -d \
+    -e MYSQL_ROOT_PASSWORD=Unix11 \
+    -e MYSQL_DATABASE=students \
+    -e MYSQL_USER=students \
+    -e MYSQL_PASSWORD=Unix11 \
+    -p 3306:3306 \
+    -v mysql-data:/var/lib/mysql \
+    mysql:8.0
+```
+login to docker
+```
+sudo docker login
+```
+enter your username and password or past your dockerhub token
+```
+sudo docker build . -t backend
+```
+```
+sudo docker tag backend <dockerhub username>/backend
+```
+```
+sudo docker push <dockerhub username>/backend
+```
