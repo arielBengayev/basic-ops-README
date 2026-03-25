@@ -156,7 +156,7 @@ cd ..
 
 ---
 
-# dockerrize the project
+# dockerize the project
 make sure the container is up
 ```
 docker ps
@@ -202,7 +202,7 @@ version: "3"
 services:
   appserver:
     container_name: server2
-    image: arielbengayev/backend:latest
+    image: <dockerhub username>/backend:latest
     ports:
       - 8080:8080
     depends_on:
