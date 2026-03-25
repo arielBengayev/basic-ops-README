@@ -105,6 +105,11 @@ git clone your SSH url
 ```
 5. choose yes
 
+to delete the clone folder you can run
+```
+rm -r folder_name
+```
+
 ---
 
 # maven build
