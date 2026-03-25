@@ -104,3 +104,38 @@ spring.datasource.password=Unix11
 git clone your SSH url
 ```
 5. choose yes
+
+---
+
+# maven build
+1. go to the project folder
+```
+cd ops-basic
+```
+2. in ops-basic folder install maven
+```
+sudo apt update
+```
+```
+sudo apt install maven -y
+```
+```
+mvn --version
+```
+3. in ops-basic folder run
+```
+mvn clean install
+```
+new folder "target" created
+
+to see the folder run
+```
+cd target
+```
+```
+ll
+```
+
+---
+
+# dockerhub security token setup
