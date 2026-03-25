@@ -187,3 +187,62 @@ sudo docker tag backend <dockerhub username>/backend
 ```
 sudo docker push <dockerhub username>/backend
 ```
+
+---
+
+# docker-compose
+upddate project
+```
+git pull
+```
+create docker-compose file
+```
+echo "
+version: "3"
+services:
+  appserver:
+    container_name: server2
+    image: arielbengayev/backend:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: Unix11
+      MYSQL_DATABASE: students
+      MYSQL_USER: students
+      MYSQL_PASSWORD: Unix11
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    privileged: true
+" >>  docker-compose.yml
+```
+to see the file
+```
+cat docker-compose.yml
+```
+to change the file
+```
+nano docker-compose.yml
+```
+to save the changes -> ctrl + o -> enter
+
+to exit -> ctrl + x
+
+kill the first container
+```
+docker ps
+```
+copy the container id and run
+```
+docker kill container id
+```
+now you can run the docker compose
+```
+docker-compose up -d
+```
+go to -> http://localhost:8080/swagger-ui.html#
