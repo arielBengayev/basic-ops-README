@@ -139,3 +139,11 @@ ll
 ---
 
 # dockerhub security token setup
+1. go to dockerhub and sign in
+2. press on your user button and go to settings
+3. press on Personal access tokens -> generate new token
+4. in access premition choose -> Read, Write, Delete
+5. press on generate, copy the token and save
+
+---
+
