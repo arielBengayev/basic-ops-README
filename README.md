@@ -233,6 +233,32 @@ to save the changes -> ctrl + o -> enter
 
 to exit -> ctrl + x
 
+---
+
+# push the changes to github
+1. to see the changes
+```
+git status
+```
+2. add to git
+```
+git add .
+```
+```
+git status
+```
+3. commit and push
+```
+git commit -m "with docker-compose"
+```
+```
+git push
+```
+now you can see the changes on github
+
+---
+
+# run the docker-compose
 kill the first container
 ```
 docker ps
