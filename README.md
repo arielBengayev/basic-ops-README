@@ -272,3 +272,69 @@ now you can run the docker compose
 docker-compose up -d
 ```
 go to -> http://localhost:8080/swagger-ui.html#
+
+---
+
+# docker automation
+1. go to the project repo
+2. go to repo settings -> secrets and variables -> actions
+3. press on new repository secret
+4. in name
+```
+DOCKERHUB_USERNAME
+```
+```
+DOCKERHUB_TOKEN
+```
+```
+SSH_KEY
+```
+5. in secret -> your dockerhub username, tocken and ubuntu ssh key
+6. go back to repo and press on actions
+7. choose Docker image and change the file name to -> build.yml
+8. change the file to
+```
+name: Build and Push
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  APP_VERSION: v1.0.${{ github.run_number }}
+
+jobs:
+  build:
+    name: Build & Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: mvn clean install
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ env.APP_VERSION }}
+```
+9. press on commit changes
