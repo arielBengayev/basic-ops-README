@@ -338,3 +338,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ env.APP_VERSION }}
 ```
 9. press on commit changes
+10. go to controller/studentController in the repo
+11. change getOneStudent to -> getOneStudent1
+12. go to actions in the repo, now you can see the new building
+13. go to dockerhub and see if new tag added
