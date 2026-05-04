@@ -342,3 +342,13 @@ jobs:
 11. change getOneStudent to -> getOneStudent1
 12. go to actions in the repo, now you can see the new building
 13. go to dockerhub and see if new tag added
+
+---
+
+# front automation
+1. go to -> https://github.com/arielBengayev/ops-basic-angular
+2. fork to your github account
+3. clone the repo to ubuntu
+```
+git clone <ssh url>
+```
