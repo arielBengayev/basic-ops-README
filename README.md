@@ -345,10 +345,41 @@ jobs:
 
 ---
 
-# front automation
+# front dockerize
 1. go to -> https://github.com/arielBengayev/ops-basic-angular
-2. fork to your github account
-3. clone the repo to ubuntu
+
+    fork to your github account
+
+2. go to -> src/environments/environment.prod.ts
+
+    change the url
 ```
-git clone <ssh url>
+'http://appserver:8080/api'
 ```
+3. go to -> src/environments/environment.ts
+
+    change the url
+```
+'http://appserver:8080/api'
+```
+4. create new file in main folder
+```
+Dockerfile
+```
+copy to Dockerfile
+```
+# build stage
+FROM node:16 AS build
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+COPY . .
+RUN npm run build --prod
+
+# serve stage
+FROM nginx:alpine
+COPY --from=build /app/dist/webapp /usr/share/nginx/html
+```
+5. 
