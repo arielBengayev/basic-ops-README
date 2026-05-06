@@ -382,4 +382,47 @@ RUN npm run build --prod
 FROM nginx:alpine
 COPY --from=build /app/dist/webapp /usr/share/nginx/html
 ```
-5. 
+5. clone the front repo
+```
+git clone <ssh url>
+```
+6. open the front project in terminal
+```
+cd project folder
+```
+7. docker build, tag and push
+```
+docker build -t <dockerhub username>/frontend:latest .
+```
+```
+docker push <dockerhub username>/frontend:latest
+```
+go to dockerhub and see the new image
+
+8. go to the backend project -> docker-compose.yml
+
+    add the front service
+```
+    frontend:
+    image: <dockerhub username>/frontend:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - appserver 
+```
+9. open the backend project on terminal
+
+    update the project
+```
+git pull
+```
+
+10. run the project
+
+```
+docker-compose up -d
+```
+go to -> http://localhost:4200
+
+---
+
