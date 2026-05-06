@@ -351,13 +351,13 @@ jobs:
 
     change the url
 ```
-'http://appserver:8080/api'
+'http://localhost:8080/api'
 ```
 3. go to -> src/environments/environment.ts
 
     change the url
 ```
-'http://appserver:8080/api'
+'http://localhost:8080/api'
 ```
 4. create new file in main folder
 ```
@@ -421,6 +421,16 @@ docker-compose up -d
 ```
 go to -> http://localhost:4200
 
+11. go to -> http://localhost:8080/swagger-ui.html#
+
+    press on -> jwt-authentication-controller -> /api/user
+
+    create a user
+
+12. go to -> http://localhost:4200
+
+    enter your username and pasword and login
+
 ---
 
 # front automation
@@ -482,4 +492,6 @@ jobs:
 8. stop the docker-compose, run again and go to -> http://localhost:4200
 
    now you can see the changes
+
+   if not see any change press -> ctrl + shift + r
    
