@@ -286,10 +286,7 @@ DOCKERHUB_USERNAME
 ```
 DOCKERHUB_TOKEN
 ```
-```
-SSH_KEY
-```
-5. in secret -> your dockerhub username, tocken and ubuntu ssh key
+5. in secret -> your dockerhub username and dockerhub token
 6. go back to repo and press on actions
 7. choose Docker image and change the file name to -> build.yml
 8. change the file to
@@ -426,3 +423,63 @@ go to -> http://localhost:4200
 
 ---
 
+# front automation
+1. go to the project repo
+2. go to repo settings -> secrets and variables -> actions
+3. press on new repository secret
+    in name
+```
+DOCKERHUB_USERNAME
+```
+```
+DOCKERHUB_TOKEN
+```
+in secret -> your dockerhub username and dockerhub token 
+
+4. go back to repo and press on actions
+5. choose Docker image and change the file name to -> build.yml
+6. change the file to
+```
+name: Build Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  APP_VERSION: v1.0.${{ github.run_number }}
+
+jobs:
+  build:
+    name: Build Frontend Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ env.APP_VERSION }}
+```
+7. go to -> src/app/pages/login/login.component.html
+   
+   change some html and save changes
+
+8. stop the docker-compose, run again and go to -> http://localhost:4200
+
+   now you can see the changes
+   
