@@ -377,6 +377,8 @@ RUN npm run build --prod
 
 # serve stage
 FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist/webapp /usr/share/nginx/html
 ```
 5. clone the front repo
