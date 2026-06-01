@@ -497,3 +497,90 @@ jobs:
 
    if not see any change press -> ctrl + shift + r
    
+---
+
+# gitlab account & repo
+1. go to -> https://gitlab.com
+2. creat account (with username and password)
+
+3. create new repo
+   
+    1. press on +
+    2. choose new project
+    3. choose Create blank project
+    4. in Project URL pick a namespace
+    5. without readme!!
+    6. press on create project
+
+4. clone the repo
+```
+git clone <https url>
+```
+
+5. copy all files to the repo (not the .github folder)
+6. push to the repo
+```
+git add .
+```
+```
+git commit -m "with project"
+```
+```
+git push
+```
+7. go to gitlab and see all files
+
+---
+
+# gitlab automation
+1. in repo go to Settings → CI/CD → Variables
+2. add keys and values
+```
+DOCKERHUB_USERNAME
+```
+```
+DOCKERHUB_TOKEN
+```
+3. create new file
+```
+.gitlab-ci.yml
+```
+4. copy to .gitlab-ci.yml
+```
+stages:
+  - build
+  - docker
+
+variables:
+  APP_VERSION: "v1.0.${CI_PIPELINE_IID}"
+
+build_app:
+  stage: build
+  image: maven:3.9-eclipse-temurin-11
+
+  script:
+    - mvn clean install
+
+  artifacts:
+    paths:
+      - target/
+
+docker_build_push:
+  stage: docker
+  image: docker:latest
+
+  services:
+    - docker:dind
+
+  before_script:
+    - docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_TOKEN"
+
+  script:
+    - docker build -t $DOCKERHUB_USERNAME/backend:$APP_VERSION .
+    - docker push $DOCKERHUB_USERNAME/backend:$APP_VERSION
+
+  only:
+    - main
+```
+5. in repo go to -> build -> pipeline and see the pipeline
+6. go to dockerhub and see the new image
