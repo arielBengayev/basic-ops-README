@@ -546,6 +546,8 @@ DOCKERHUB_TOKEN
 .gitlab-ci.yml
 ```
 4. copy to .gitlab-ci.yml
+
+backend
 ```
 stages:
   - build
@@ -578,6 +580,35 @@ docker_build_push:
   script:
     - docker build -t $DOCKERHUB_USERNAME/backend:$APP_VERSION .
     - docker push $DOCKERHUB_USERNAME/backend:$APP_VERSION
+
+  only:
+    - main
+```
+
+frontend
+```
+stages:
+  - docker
+
+variables:
+  APP_VERSION: "v1.0.${CI_PIPELINE_IID}"
+
+docker_build_push:
+  stage: docker
+
+  image: docker:latest
+
+  services:
+    - docker:dind
+
+  before_script:
+    - docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_TOKEN"
+
+  script:
+    - docker build -t $DOCKERHUB_USERNAME/frontend:latest .
+    - docker build -t $DOCKERHUB_USERNAME/frontend:$APP_VERSION .
+    - docker push $DOCKERHUB_USERNAME/frontend:latest
+    - docker push $DOCKERHUB_USERNAME/frontend:$APP_VERSION
 
   only:
     - main
