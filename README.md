@@ -615,3 +615,17 @@ docker_build_push:
 ```
 5. in repo go to -> build -> pipeline and see the pipeline
 6. go to dockerhub and see the new image
+
+---
+
+# kubernetes
+install minikube
+
+windows
+```
+winget install Kubernetes.minikube
+```
+mac
+```
+brew install minikube
+```
