@@ -619,13 +619,208 @@ docker_build_push:
 ---
 
 # kubernetes
-install minikube
+1. install minikube and kubectl from cmd
 
-windows
-```
-winget install Kubernetes.minikube
-```
-mac
-```
-brew install minikube
-```
+   windows
+   ```
+   winget install Kubernetes.minikube
+   ```
+   mac
+   ```
+   brew install minikube
+   ```
+
+   check version
+   ```
+   minikube version
+   ```
+   ```
+   kubectl version
+   ```
+
+2. start a cluster
+
+   ```
+   minikube start --driver docker
+   ```
+
+   to see the cluster status
+   ```
+   minikube status
+   ```
+
+   to see all nodes
+   ```
+   kubectl get node
+   ```
+3. create new folder and open in vs code
+   ```
+   K8S
+   ```
+   create new file - configmap
+   ```
+   mongo-config.yml
+   ```
+   copy to the file
+   ```
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: mongo-config
+   data:
+     mongo-url: mongo-service
+   ```
+   create new file - secret
+   ```
+   mongo-secret.yml
+   ```
+   open ubuntu and run
+   ```
+   echo -n mongouser | base64
+   ```
+   ```
+   echo -n mongopassword | base64
+   ```
+   copy to the file
+   ```
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: mongo-secret
+    type: Opaque
+    data:
+      mongo-user: hashed user
+      mongo-password: hashed password
+   ```
+   create new file - mongo deployment and service
+   ```
+   mongo.yml
+   ```
+   copy to the file
+   ```
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: mongo-deployment
+      labels:
+        app: mongo
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: mongo
+      template:
+        metadata:
+          labels:
+            app: mongo
+        spec:
+          containers:
+          - name: mongodb
+            image: mongo:5.0
+            ports:
+            - containerPort: 27017
+            env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password     
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: mongo-service
+    spec:
+      selector:
+        app: mongo
+      ports:
+        - protocol: TCP
+          port: 27017
+          targetPort: 27017
+   ```
+   create new file - app deployment and service
+   ```
+   webapp.yml
+   ```
+   copy to the file
+   ```
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: webapp-deployment
+      labels:
+        app: webapp
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: webapp
+      template:
+        metadata:
+          labels:
+            app: webapp
+        spec:
+          containers:
+          - name: webapp
+            image: nanajanashia/k8s-demo-app:v1.0
+            ports:
+            - containerPort: 3001
+            env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password 
+            - name: BD_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: mongo-url
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: webapp-service
+    spec:
+      type: NodePort
+      selector:
+        app: webapp
+      ports:
+        - protocol: TCP
+          port: 3001
+          targetPort: 3001
+          nodePort: 30100
+   ```
+4. create in kubernetes
+    
+   open a terminal and run
+   ```
+   kubectl apply -f mongo-config.yml
+   ```
+   ```
+   apply -f mongo-secret.yml
+   ```
+   ```
+   kubectl apply -f mongo.yml
+   ```
+   ```
+   kubectl apply -f webapp.yml
+   ```
+
+   to see all pods/services
+   ```
+   kubectl get all 
+   ```
+   ```
+   minikube service webapp-service
+   ```
