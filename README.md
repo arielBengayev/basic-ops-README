@@ -821,6 +821,11 @@ docker_build_push:
    ```
    kubectl get all 
    ```
+   to see the webapp
    ```
    minikube service webapp-service
+   ```
+   to stop the cluster
+   ```
+   minikube stop
    ```
