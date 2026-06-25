@@ -808,7 +808,7 @@ docker_build_push:
    kubectl apply -f mongo-config.yml
    ```
    ```
-   apply -f mongo-secret.yml
+   kubectl apply -f mongo-secret.yml
    ```
    ```
    kubectl apply -f mongo.yml
